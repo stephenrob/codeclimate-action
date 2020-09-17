@@ -111,7 +111,7 @@ export function run(
       // Run format-coverage on each location.
       const parts: Array<string> = [];
       for (const i in coverageLocations) {
-        const [location, type] = coverageLocations[i].split(':');
+        const [location, type, prefix] = coverageLocations[i].split(':');
         if (!type) {
           const err = new Error(`Invalid formatter type ${type}`);
           debug(
@@ -134,6 +134,9 @@ export function run(
           `codeclimate.${i}.json`,
         ];
         if (codeClimateDebug === 'true') commands.push('--debug');
+        if (prefix && !coveragePrefix) {
+          commands.push('--prefix', prefix)
+        }
         if (coveragePrefix) {
           commands.push('--prefix', coveragePrefix);
         }
